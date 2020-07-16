@@ -1,12 +1,15 @@
 package com.example.roomdatabasejava;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Database;
 import androidx.room.Room;
 
 import android.os.Bundle;
 import android.util.Log;
 
 import com.example.roomdatabasejava.database.AppDatabase;
+import com.example.roomdatabasejava.database.DatabaseManager;
+import com.example.roomdatabasejava.database.Operations;
 import com.example.roomdatabasejava.entities.CaseListEntity;
 
 import java.util.List;
@@ -30,15 +33,16 @@ public class MainActivity extends AppCompatActivity {
         ent.extCaseNumber = 21034413;
         ent.serviceName = "IME";
 
-        // Add Code One to database
-        db.examineeDAO().insertAll(ent);
+
+
+        DatabaseManager dbManager = new DatabaseManager(getApplicationContext());
+        dbManager.performOperation(Operations.Insert,ent);
 
         // Fetching all the entities from database.
         List<CaseListEntity> entities = db.examineeDAO().getAll();
         for(CaseListEntity entity : entities){
             Log.d("Fetch","Examinee name is ---->" + entity.examineeName + "His Primay key is" + entity.caseNumber);
         }
-
-
     }
+
 }
